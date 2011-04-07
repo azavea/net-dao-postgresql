@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using Azavea.Open.Common;
 using Azavea.Open.DAO.Criteria;
 using Azavea.Open.DAO.Criteria.Spatial;
+using Azavea.Open.DAO.Tests;
 using GeoAPI.Geometries;
 using GisSharpBlog.NetTopologySuite.Geometries;
 using NUnit.Framework;
@@ -166,7 +167,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
 
         private void SetupPoints()
         {
-            _pointDao.Truncate();
+            AbstractFastDAOTests.ResetTable(_pointDao.DataAccessLayer, _pointDao.ClassMap);
             _pointDao.Insert(MakePoint(100, 100));
             _pointDao.Insert(MakePoint(110, 110));
             _pointDao.Insert(MakePoint(120, 120));
@@ -181,7 +182,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
 
         private void SetupLines()
         {
-            _lineDao.Truncate();
+            AbstractFastDAOTests.ResetTable(_lineDao.DataAccessLayer, _lineDao.ClassMap);
             _lineDao.Insert(MakeLine(100, 100));
             _lineDao.Insert(MakeLine(100, 200));
             _lineDao.Insert(MakeLine(100, 300));
@@ -192,7 +193,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
 
         private void SetupPolys()
         {
-            _polyDao.Truncate();
+            AbstractFastDAOTests.ResetTable(_polyDao.DataAccessLayer, _polyDao.ClassMap);
             _polyDao.Insert(MakePoly(100, 100));
             _polyDao.Insert(MakePoly(100, 200));
             _polyDao.Insert(MakePoly(100, 300));

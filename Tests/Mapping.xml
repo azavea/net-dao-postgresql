@@ -63,7 +63,7 @@
 		</id>
 		<property name="BoolVal" column="BoolCol"/>
 		<property name="IntVal" column="IntCol"/>
-		<property name="DateVal" column="DateCol" type="date"/>
+		<property name="DateVal" column="DateCol"/>
 		<property name="FloatVal" column="FloatCol"/>
 	</class>
 	<class name="Azavea.Open.DAO.Tests.EasyCompositeKeyClass,Azavea.Open.DAO" table="DoesntMatter">

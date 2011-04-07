@@ -36,6 +36,6 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
             : base(
                 new FastDAO<JoinClass1>(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO"),
                 new FastDAO<JoinClass2>(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO"),
-                false, true, true, true) { }
+                false, true, true, true, false) { }
     }
 }

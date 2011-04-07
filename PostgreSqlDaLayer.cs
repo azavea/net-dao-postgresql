@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Azavea.Open.DAO.Criteria;
 using Azavea.Open.DAO.Criteria.Spatial;
 using Azavea.Open.DAO.SQL;
@@ -33,7 +34,7 @@ namespace Azavea.Open.DAO.PostgreSQL
     /// <summary>
     /// Implements a FastDao layer customized for PostGreSQL (optionally with PostGIS installed).
     /// </summary>
-    public class PostgreSqlDaLayer : SqlDaLayer
+    public class PostgreSqlDaLayer : SqlDaDdlLayer
     {
         private readonly EWKTWriter _ewktWriter = new EWKTWriter();
         private readonly EWKTReader _ewktReader = new EWKTReader();
@@ -42,7 +43,7 @@ namespace Azavea.Open.DAO.PostgreSQL
         /// ConnectionDescriptor.
         /// </summary>
         /// <param name="connDesc">Connection to the PostGreSQL / PostGIS DB we'll be using.</param>
-        public PostgreSqlDaLayer(AbstractSqlConnectionDescriptor connDesc)
+        public PostgreSqlDaLayer(PostgreSqlDescriptor connDesc)
             : base(connDesc, true)
         {
             _coerceableTypes = new Dictionary<Type, TypeCoercionDelegate>();
@@ -235,5 +236,114 @@ namespace Azavea.Open.DAO.PostgreSQL
             }
             return retVal;
         }
+
+        #region Implementation of IDaDdlLayer
+
+        /// <summary>
+        /// Add the definition for the given column to the create table statement.
+        /// </summary>
+        /// <param name="sb">Current create table statement to append to.</param>
+        /// <param name="col">Name of the column to add a definition for.</param>
+        /// <param name="mapping">Classmapping we're creating a table for.</param>
+        /// <param name="separator">Separator to use before appending to sb.</param>
+        /// <param name="extraStatements">If adding this column requires any additional
+        ///                               SQL statements to be run afterwards, put them here.</param>
+        /// <returns>Whether or not it appended anything to the string builder.</returns>
+        protected override bool AddColDefinition(StringBuilder sb, string col, ClassMapping mapping,
+            string separator, ICollection<string> extraStatements)
+        {
+            Type colType = GetDataType(col, mapping);
+
+            // Geometry types are special.
+            if (typeof(IGeometry).IsAssignableFrom(colType))
+            {
+                string geomType = "GEOMETRY";
+                // Specify geometry type if we can.
+                if (colType == typeof(IPoint))
+                {
+                    geomType = "POINT";
+                }
+                else if (colType == typeof(ILineString))
+                {
+                    geomType = "LINESTRING";
+                }
+                else if (colType == typeof(IPolygon))
+                {
+                    geomType = "POLYGON";
+                }
+                else if (colType == typeof(IMultiPoint))
+                {
+                    geomType = "MULTIPOINT";
+                }
+                else if (colType == typeof(IMultiLineString))
+                {
+                    geomType = "MULTILINESTRING";
+                }
+                else if (colType == typeof(IMultiPolygon))
+                {
+                    geomType = "MULTIPOLYGON";
+                }
+                extraStatements.Add("SELECT AddGeometryColumn('" + mapping.Table +
+                                    "', '" + col + "', -1, '" + geomType + "', 2)");
+                return false;
+            }
+            return base.AddColDefinition(sb, col, mapping, separator, extraStatements);
+        }
+
+        /// <summary>
+        /// Returns the DDL for the type of an automatically incrementing column.
+        /// Some databases only store autonums in one col type so baseType may be
+        /// ignored.
+        /// </summary>
+        /// <param name="baseType">The data type of the column (nominally).</param>
+        /// <returns>The autonumber definition string.</returns>
+        protected override string GetAutoType(Type baseType)
+        {
+            return "SERIAL";
+        }
+
+        /// <summary>
+        /// Returns the SQL type used to store a byte array in the DB.
+        /// </summary>
+        protected override string GetByteArrayType()
+        {
+            return "BYTEA";
+        }
+
+        /// <summary>
+        /// Returns the SQL type used to store a long in the DB.
+        /// </summary>
+        protected override string GetLongType()
+        {
+            return "BIGINT";
+        }
+
+        /// <summary>
+        /// Returns the SQL type used to store a "normal" (unicode) string in the DB.
+        /// </summary>
+        protected override string GetStringType()
+        {
+            return "TEXT";
+        }
+
+        /// <summary>
+        /// PostgreSQL encoding is specified by the database not by the column,
+        /// so we just use TEXT again.
+        /// </summary>
+        /// <returns></returns>
+        protected override string GetAsciiStringType()
+        {
+            return "TEXT";
+        }
+
+        /// <summary>
+        /// Returns the SQL type used to store a boolean in the DB.
+        /// </summary>
+        protected override string GetBooleanType()
+        {
+            return "BOOLEAN";
+        }
+
+        #endregion
     }
 }

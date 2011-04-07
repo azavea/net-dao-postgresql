@@ -24,6 +24,7 @@
 using System;
 using Azavea.Open.Common;
 using Azavea.Open.DAO.SQL;
+using Azavea.Open.DAO.Tests;
 using NUnit.Framework;
 
 namespace Azavea.Open.DAO.PostgreSQL.Tests
@@ -41,7 +42,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
             try
             {
                 _ncdao = new FastDAO<NullableClass>(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO");
-                _ncdao.Truncate();
+                AbstractFastDAOTests.ResetTable(_ncdao.DataAccessLayer, _ncdao.ClassMap);
             }
             catch (Exception e)
             {

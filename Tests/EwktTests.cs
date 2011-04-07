@@ -59,7 +59,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
             const string text =
                 "SRID=2272;LINESTRING(2697646.11346083 232178.576010919,2697620.861473 232005.116936741)";
             IGeometry result = new EWKTReader().Read(text);
-            Assert.IsInstanceOfType(typeof(ILineString), result);
+            Assert.IsInstanceOf<ILineString>(result);
         }
     }
 }

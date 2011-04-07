@@ -34,23 +34,8 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
     {
         /// <exclude/>
         public PostgreSqlDaoTests()
-            : base(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO", true, true, true, true, false, true) { }
+            : base(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO", true, true, true, true, false) { }
 
-        /// <exclude/>
-        [TestFixtureSetUp]
-        public virtual void Init()
-        {
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "TRUNCATE TABLE EnumTable", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "TRUNCATE TABLE BoolTable", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "TRUNCATE TABLE NullableTable", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "TRUNCATE TABLE NameTable", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "INSERT INTO NameTable VALUES(1, 'Michael')", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "INSERT INTO NameTable VALUES(2, 'Rich')", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "INSERT INTO NameTable VALUES(3, 'Keith')", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "INSERT INTO NameTable VALUES(4, 'Rachel')", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "INSERT INTO NameTable VALUES(5, 'Jeff')", null);
-            SqlConnectionUtilities.XSafeCommand((AbstractSqlConnectionDescriptor)_connDesc, "INSERT INTO NameTable VALUES(6, 'Megan')", null);
-        }
         /// <exclude/>
         [Test]
         public void TestGetMappingFromSchema()
