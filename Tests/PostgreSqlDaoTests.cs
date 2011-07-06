@@ -34,7 +34,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
     {
         /// <exclude/>
         public PostgreSqlDaoTests()
-            : base(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO", true, true, true, true, false) { }
+            : base(new Config("..\\..\\Tests\\PostgreSqlDao.config", "PostgreSqlDaoConfig"), "DAO", true, true, true, true, false, true) { }
 
         /// <exclude/>
         [Test]
