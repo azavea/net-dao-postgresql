@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ProductAssemblyInfo.cs">
+    <Compile Include="..\Azavea.Open.DAO\ProductAssemblyInfo.cs">
       <Link>ProductAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="EWKTReader.cs" />
