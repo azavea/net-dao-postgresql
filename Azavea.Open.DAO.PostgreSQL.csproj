@@ -61,6 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProductAssemblyInfo.cs">
+      <Link>ProductAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="EWKTReader.cs" />
     <Compile Include="EWKTWriter.cs" />
     <Compile Include="PostgreSqlDaLayer.cs" />
