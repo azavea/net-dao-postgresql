@@ -24,7 +24,7 @@
 using System;
 using Azavea.Open.Common;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.IO;
+using NetTopologySuite.IO;
 
 namespace Azavea.Open.DAO.PostgreSQL
 {

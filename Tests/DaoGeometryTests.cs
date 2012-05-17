@@ -28,7 +28,7 @@ using Azavea.Open.DAO.Criteria;
 using Azavea.Open.DAO.Criteria.Spatial;
 using Azavea.Open.DAO.Tests;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 using NUnit.Framework;
 
 namespace Azavea.Open.DAO.PostgreSQL.Tests
@@ -106,13 +106,13 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
         public void TestGetIntersects()
         {
             DaoCriteria crit = new DaoCriteria();
-            ICoordinate[] coords = new ICoordinate[5];
+            Coordinate[] coords = new Coordinate[5];
             coords[0] = new Coordinate(100, 100);
             coords[1] = new Coordinate(200, 100);
             coords[2] = new Coordinate(200, 150);
             coords[3] = new Coordinate(100, 150);
             coords[4] = new Coordinate(100, 100);
-            IGeometry poly = new Polygon(new LinearRing(coords));
+            Geometry poly = new Polygon(new LinearRing(coords));
             crit.Expressions.Add(new IntersectsExpression("Shape", poly));
             IList<PointClass> points = _pointDao.Get(crit);
             Assert.AreEqual(6, points.Count, "Wrong number of points.");
@@ -127,13 +127,13 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
         public void TestGetContainedBy()
         {
             DaoCriteria crit = new DaoCriteria();
-            ICoordinate[] coords = new ICoordinate[5];
+            Coordinate[] coords = new Coordinate[5];
             coords[0] = new Coordinate(100, 100);
             coords[1] = new Coordinate(200, 100);
             coords[2] = new Coordinate(200, 150);
             coords[3] = new Coordinate(100, 150);
             coords[4] = new Coordinate(100, 100);
-            IGeometry poly = new Polygon(new LinearRing(coords));
+            Geometry poly = new Polygon(new LinearRing(coords));
             crit.Expressions.Add(new WithinExpression("Shape", poly));
             IList<PointClass> points = _pointDao.Get(crit);
             Assert.AreEqual(4, points.Count, "Wrong number of points.");
@@ -218,7 +218,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
             LineClass retVal = new LineClass();
             retVal.Int = x + y;
             retVal.Double = x * y;
-            ICoordinate[] coords = new ICoordinate[4];
+            Coordinate[] coords = new Coordinate[4];
             coords[0] = new Coordinate(x, y);
             coords[1] = new Coordinate(x + 10, y);
             coords[2] = new Coordinate(x + 10, y + 20);
@@ -234,7 +234,7 @@ namespace Azavea.Open.DAO.PostgreSQL.Tests
             retVal.Int = x + y;
             retVal.Double = x * y;
             retVal.Date = DateTime.Now;
-            ICoordinate[] coords = new ICoordinate[5];
+            Coordinate[] coords = new Coordinate[5];
             coords[0] = new Coordinate(x, y);
             coords[1] = new Coordinate(x + 10, y);
             coords[2] = new Coordinate(x + 10, y + 20);
