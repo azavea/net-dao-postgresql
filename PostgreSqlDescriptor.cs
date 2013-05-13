@@ -383,5 +383,17 @@ namespace Azavea.Open.DAO.PostgreSQL
         {
             return "";
         }
+
+        ///<exclude/>
+        public override bool HasCaseInsensitiveLikeOperator()
+        {
+            return true;
+        }
+
+        ///<exclude/>
+        public override string CaseInsensitiveLikeOperator()
+        {
+            return "ILIKE";
+        }
     }
 }
